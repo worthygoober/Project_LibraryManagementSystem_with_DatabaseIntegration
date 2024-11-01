@@ -6,7 +6,7 @@ from mysql.connector import Error
 def connect_database():
     db_name = "library_management_db"
     user = "root"
-    password = "Doit4Pixie&Haribo"
+    password = "Doit4Pixie%26Haribo"
     host = "localhost"
 
     try:
@@ -20,6 +20,9 @@ def connect_database():
         return conn
     except Error as e:
         print(f"Error: {e}")
+        return None
+    except Exception as e:
+        print(f"General Error: {e}")
         return None
     
 def book_operations():
@@ -95,7 +98,7 @@ def borrow_book():
                 if availability:
                     second_query = "INSERT INTO borrowed_books (user_id, book_id, borrow_date) VALUES (%s, %s, CURDATE());"
                     cursor.execute(second_query, (library_id, book_id))
-                    third_query = "UPDATE books SET availability 0 WHERE id = %s;"
+                    third_query = "UPDATE books SET availability = 0 WHERE id = %s;"
                     cursor.execute(third_query, (book_id, ))
                     conn.commit()
                     print(f"'{title}' has been successfully checked-out to ID: {library_id}.")
@@ -126,7 +129,7 @@ def return_borrowed_book():
                 book_id = result[0]
                 second_query = "DELETE FROM borrowed_books WHERE user_id = %s AND book_id = %s;"
                 cursor.execute(second_query, (library_id, book_id))
-                third_query = "UPDATE books SET availability 1 WHERE id = %s;"
+                third_query = "UPDATE books SET availability = 1 WHERE id = %s;"
                 cursor.execute(third_query, (book_id, ))
                 conn.commit()
                 print(f"'{title}' has been checked-in by ID: {library_id}.")
