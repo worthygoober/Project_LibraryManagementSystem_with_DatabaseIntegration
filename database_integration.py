@@ -6,15 +6,15 @@ from mysql.connector import Error
 def connect_database():
     db_name = "library_management_db"
     user = "root"
-    password = "Doit4Pixie%26Haribo"
-    host = "localhost"
+    password = "Doit4Pixie&Haribo"
+    host = "127.0.0.1"
 
     try:
         conn = mysql.connector.connect(
             database = db_name,
             user = user,
             password = password,
-            host = host
+            host = host,
         )
         print("Connected to MySQL database successfully.")
         return conn
@@ -24,6 +24,9 @@ def connect_database():
     except Exception as e:
         print(f"General Error: {e}")
         return None
+    # finally:
+    #     conn.close()
+    #     print("Closing connection.")
     
 def book_operations():
     while True:          
@@ -377,17 +380,17 @@ def is_valid_date(date):
 while True:
     print("Welcome to the Library Management System with Database Integration!\n****")
     print("Main Menu:\n1. Book Operations\n2. User Operations\n3. Author Operations\n4. Quit")
-    choice = input("Enter the name of the Operations menu to access (book/user/author/quit): ")
-    if choice.lower() == "quit":
+    choice = input("Enter the Operations menu to access (1-4): ")
+    if choice == "4":
         print("Thank you for using the Library Management System. The system is closing now.")
         break
 
     try:
-        if choice.lower() == "book":
+        if choice == "1":
             book_operations()
-        elif choice.lower() == "user":
+        elif choice == "2":
             user_operations()
-        elif choice.lower() == "author":
+        elif choice == "3":
             author_operations()
         else:
             print("Invalid choice. Please try again.")
